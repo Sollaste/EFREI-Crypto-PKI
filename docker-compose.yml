@@ -1,0 +1,25 @@
+services:
+  dns:
+    container_name: bind9
+    build:
+      context: ./dns
+      dockerfile: Dockerfile # Ubuntu/bind9 image
+    restart: unless-stopped
+    tty: true
+
+    dns:
+      - 172.18.0.2
+
+    volumes:
+      - ./dns/bindConfiguration/db.efrei.lan:/var/cache/bind/db.efrei.lan
+
+    networks:
+      default:
+        ipv4_address: 172.18.0.2
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/24

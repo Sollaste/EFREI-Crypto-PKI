@@ -1,0 +1,10 @@
+zone "efrei.lan"  {
+	type master;
+	file "/var/cache/bind/db.efrei.lan";
+	allow-query { any; };
+	allow-transfer { none; };
+	
+	dnssec-policy default;
+	inline-signing yes;
+	key-directory "/var/cache/bind";
+};

@@ -1,0 +1,14 @@
+$TTL 3600
+$ORIGIN efrei.lan.
+@		IN	SOA	ns1.efrei.lan. admin.efrei.lan. (
+					1       ; serial number
+					3600	; refresh
+					1800	; update retry 
+					604800	; expire
+					86400	; minimum
+					)
+	IN	NS	ns1.efrei.lan.
+ns1	IN	A	172.18.0.2
+
+mattermost	IN	A	172.18.0.100
+www	IN	CNAME	mattermost

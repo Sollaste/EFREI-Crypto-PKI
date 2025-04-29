@@ -1,0 +1,29 @@
+options {
+	directory "/var/cache/bind";
+
+	forwarders {
+		1.1.1.1;
+		1.0.0.1;
+	};
+
+	// Activer les requêtes IPv4
+	listen-on { any; };
+	
+	// Si vous voulez aussi activer IPv6
+	listen-on-v6 { any; };
+	
+	// Autoriser les requêtes récursives depuis le réseau local
+	allow-recursion { 127.0.0.1; 172.18.0.0/24; }; // Adaptez à votre réseau
+	
+	// Options DNSSEC
+	dnssec-validation auto;
+	
+	// Chemins des clés
+	managed-keys-directory "/var/cache/bind";
+	
+	// Améliorer la sécurité
+	version none;
+	
+	// Autres options de sécurité recommandées
+	allow-transfer { none; };
+};
