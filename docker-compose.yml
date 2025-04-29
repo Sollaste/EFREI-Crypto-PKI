@@ -7,15 +7,52 @@ services:
     restart: unless-stopped
     tty: true
 
+    environment:
+      - DNS_ADDRESS=${DNS_ADDRESS}
+
     dns:
-      - 172.18.0.2
+      - ${DNS_ADDRESS}
 
     volumes:
       - ./dns/bindConfiguration/db.efrei.lan:/var/cache/bind/db.efrei.lan
 
     networks:
       default:
-        ipv4_address: 172.18.0.2
+        ipv4_address: ${DNS_ADDRESS}
+
+  vault:
+    container_name: vault
+    image: hashicorp/vault
+    restart: unless-stopped
+    tty: true
+
+    depends_on:
+      - dns
+
+    ports:
+      - "8080:8200"
+
+    cap_add:
+      - IPC_LOCK
+
+    environment:
+      - VAULT_DEV_ROOT_TOKEN_ID=${VAULT_DEV_ROOT_TOKEN_ID}
+      - VAULT_ADDR=http://127.0.0.1:8200
+      - VAULT_TOKEN=${VAULT_DEV_ROOT_TOKEN_ID}
+    
+    command: "server -config=/vault/config/vault.hcl"
+
+    volumes:
+      - ./vault/logs:/vault/logs
+      - ./vault/file:/vault/file
+      - ./vault/config:/vault/config
+
+    dns:
+      - ${DNS_ADDRESS}
+
+    networks:
+      default:
+        ipv4_address: ${VAULT_ADDRESS}
 
 networks:
   default:
