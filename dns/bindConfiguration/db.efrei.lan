@@ -10,5 +10,4 @@ $ORIGIN efrei.lan.
 	IN	NS	ns1.efrei.lan.
 ns1	IN	A	172.18.0.2
 
-mattermost	IN	A	172.18.0.100
-www	IN	CNAME	mattermost
+vault	IN	A	172.18.0.3

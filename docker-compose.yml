@@ -44,7 +44,6 @@ services:
     volumes:
       - ./vault/logs:/vault/logs
       - ./vault/file:/vault/file
-    #  - ./vault/config:/vault/config
 
     dns:
       - ${DNS_ADDRESS}
