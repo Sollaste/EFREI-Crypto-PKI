@@ -7,9 +7,6 @@ services:
     restart: unless-stopped
     tty: true
 
-    environment:
-      - DNS_ADDRESS=${DNS_ADDRESS}
-
     dns:
       - ${DNS_ADDRESS}
 
@@ -22,7 +19,9 @@ services:
 
   vault:
     container_name: vault
-    image: hashicorp/vault
+    build:
+      context: ./vault
+      dockerfile: Dockerfile # alpine/vault image  
     restart: unless-stopped
     tty: true
 
@@ -37,15 +36,13 @@ services:
 
     environment:
       - VAULT_DEV_ROOT_TOKEN_ID=${VAULT_DEV_ROOT_TOKEN_ID}
-      - VAULT_ADDR=http://127.0.0.1:8200
-      - VAULT_TOKEN=${VAULT_DEV_ROOT_TOKEN_ID}
     
-    command: "server -config=/vault/config/vault.hcl"
+    command: "server -dev"
 
     volumes:
       - ./vault/logs:/vault/logs
       - ./vault/file:/vault/file
-      - ./vault/config:/vault/config
+    #  - ./vault/config:/vault/config
 
     dns:
       - ${DNS_ADDRESS}
